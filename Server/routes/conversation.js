@@ -28,11 +28,19 @@ router.post('/startConversation', function(req, res) {
 
 });
 
+router.delete('/deleteAll', function(req, res){
+  Conversation.remove((err)=>{
+    console.log(err);
+  })
+  res.send("tried");
+});
+
 function createSocket(conversation){
   var nsp = io.of('/' + conversation._id);
   console.log("nsp of /" + conversation._id);
   nsp.on('connection', function(socket){
-    var addedUser = 1;
+    var numUsers = 1;
+    var addedUser = false;
 
     socket.on('new message', function (data) {
        // we tell the client to execute 'new message'
